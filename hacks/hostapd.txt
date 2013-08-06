@@ -1,0 +1,6 @@
+From: http://learn.adafruit.com/setting-up-a-raspberry-pi-as-a-wifi-access-point/install-software
+
+Before we can run the access point software, we have to update it to a version that supports the WiFi adapter. 
+First get the new version by typing in 
+ wget http://www.adafruit.com/downloads/adafruit_hostapd.zip
+
