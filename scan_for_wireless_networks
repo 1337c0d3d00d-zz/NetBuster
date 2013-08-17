@@ -1,6 +1,7 @@
 #!/usr/bin/perl
 
 use Data::Dumper;
+use DBI;
 
 # Example output to be parsed:
 #
@@ -32,6 +33,7 @@ while(<FIN>) {
 	if ( /Cell \d+ - Address: ([0-9A-Fa-f:]+)/ ) {
 		$cell = &save_last_cell_start_new_cell($cell);
 		$cell->{mac_address} = $1;
+		$cell->{mac_address} =~ tr/a-f/A-F/;
 	} elsif ( /ESSID:"(.*)"/ ) {
 		$cell->{essid} = $1;
 	} elsif ( /Protocol:.*802\.11(\w+)/ ) {
@@ -48,8 +50,8 @@ while(<FIN>) {
 	} elsif ( /Frequency:.*Channel (\d+)/ ) {
 		$cell->{channel} = $1;
 	} elsif ( /Encryption key:(\w+)/ ) {
-		if ( $1 == "on" ) { $cell->{is_encrypted} = 2;
-		} elsif ( $1 == "off" ) {
+		if ( $1 eq "on" ) { $cell->{is_encrypted} = 2;
+		} elsif ( $1 eq "off" ) {
 			$cell->{is_encrypted} = 1;
 		}
 	} elsif ( /IE:\s+(.*)/ ) {
@@ -65,6 +67,55 @@ push(@cells, $cell) if (defined $cell);
 foreach(@cells) {
 	print Dumper($_);
 }
+
+$dsn = "dbi:SQLite:dbname=state.db";
+$dbh = DBI->connect($dsn, "", "", { RaiseError => 1 }) or die $DBI::errstr;
+
+foreach $cell (@cells) {
+	next if ($cell->{essid} eq "" or $cell->{mac_address} eq "");
+	$sql = "SELECT id FROM WirelessNetworks WHERE mac_address == '$cell->{mac_address}'";
+	print "Executing: $sql\n";
+	my $sth = $dbh->prepare("SELECT id FROM WirelessNetworks WHERE mac_address == '$cell->{mac_address}'");
+	$sth->execute();
+	my $ids = $sth->fetch();
+	my $id = undef;
+	if ($ids) {
+		$id = $ids->[0];
+	}
+	$sth->finish();
+	if (defined $id) {
+		push(@current_ids, $id);
+		my @set;
+		foreach(keys %$cell) {
+			next if ($_ eq "mac_address");
+			push(@set, "$_=\'$cell->{$_}\'");
+		}
+		my $set = join ", ", @set;
+		$sql = "UPDATE WirelessNetworks SET $set WHERE id=$id";
+		print "Executing: $sql\n";
+		my $sth = $dbh->prepare($sql);
+		$sth->execute();
+		$sth->finish();
+	} else {
+		$keys   = join ", ", keys   %$cell;
+		$values = join ", ", map { "\'$_\'" } values %$cell;
+		$sql = "INSERT INTO WirelessNetworks($keys) VALUES ($values)";
+		print "Executing: $sql\n";
+		my $sth = $dbh->prepare($sql);
+		$sth->execute();
+		$sth->finish();
+		push(@current_ids, $dbh->sqlite_last_insert_rowid());
+	}
+}
+
+$set = join ", ", @current_ids;
+$sql = "DELETE FROM WirelessNetworks WHERE id NOT IN ($set)";
+print "Executing: $sql\n";
+my $sth = $dbh->prepare($sql);
+$sth->execute();
+$sth->finish();
+
+$dbh->disconnect();
 
 sub save_last_cell_start_new_cell {
 	push(@cells, $cell) if (defined $cell);
