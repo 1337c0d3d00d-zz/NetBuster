@@ -68,8 +68,14 @@ foreach(@cells) {
 	print Dumper($_);
 }
 
+#
+# Write to the database
+#
+# See for tutorial: http://zetcode.com/db/sqliteperltutorial/
+#
+
 $dsn = "dbi:SQLite:dbname=state.db";
-$dbh = DBI->connect($dsn, "", "", { RaiseError => 1 }) or die $DBI::errstr;
+$dbh = DBI->connect($dsn, "", "", { RaiseError => 1, AutoCommit => 0 }) or die $DBI::errstr;
 
 foreach $cell (@cells) {
 	next if ($cell->{essid} eq "" or $cell->{mac_address} eq "");
@@ -115,6 +121,7 @@ my $sth = $dbh->prepare($sql);
 $sth->execute();
 $sth->finish();
 
+$dbh->commit();
 $dbh->disconnect();
 
 sub save_last_cell_start_new_cell {
