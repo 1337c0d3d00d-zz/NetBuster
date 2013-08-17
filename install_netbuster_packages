@@ -10,6 +10,11 @@ set -e
 # TODO: change pi password
 # TODO: allow changing of ssid, password, channel number, encryption type, in hostapd.conf
 # TODO: remove unnecessary packages like X
+# TODO: come up with a reset/power loss tolerant methdology (ro root for example)
+
+##############################################################################
+# Networking, DHCP server, access point
+##############################################################################
 
 apt-get install -y \
   hostapd isc-dhcp-server
@@ -51,4 +56,11 @@ rm -f $TARGET && ln -s $OVERLAY/$TARGET $TARGET
 # Enable daemons on startup
 update-rc.d hostapd enable 
 update-rc.d isc-dhcp-server enable
+
+
+##############################################################################
+# Database
+##############################################################################
+
+./initialize_database
 

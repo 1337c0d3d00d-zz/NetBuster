@@ -1,0 +1,51 @@
+#!/bin/bash
+
+# This script creates the sqlite3 database file for Netbuster. If a database already
+# exists, it is deleted first.
+
+# The database currently stores data from iwlist:
+#
+# Example results from 'iwlist wlan1 scan'
+#          Cell 01 - Address: 8A:E4:33:2F:A1:10
+#                    ESSID:"caseydog-guest"
+#                    Protocol:IEEE 802.11bgn
+#                    Mode:Master
+#                    Frequency:2.412 GHz (Channel 1)
+#                    Encryption key:on
+#                    Bit Rates:144 Mb/s
+#                    Extra:rsn_ie=30140100000fac040100000fac040100000fac020000
+#                    IE: IEEE 802.11i/WPA2 Version 1
+#                        Group Cipher : CCMP
+#                        Pairwise Ciphers (1) : CCMP
+#                        Authentication Suites (1) : PSK
+#                    Quality=100/100  Signal level=70/100
+
+DATABASE_FILE=state.db
+
+if [ -f $DATABASE_FILE ]; then
+    rm $DATABASE_FILE
+fi
+
+cat << 'EOF' | sqlite3 $DATABASE_FILE
+
+CREATE TABLE WirelessNetworks (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+
+    -- results from iwlist
+    essid VARCHAR(40),            -- name of the network
+    mac_address VARCHAR(40),      -- mac address of the peer
+    protocol INTEGER,             -- 0 - unknown, 0x1 - b, 0x2 - g, 0x4 - n
+    mode INTEGER,                 -- 0 - unknown, 1 - adhoc, 2 - access point
+    channel INTEGER,              -- 0 - unknown, 1-14 channel number
+    is_encrypted INTEGER,         -- 0 - unknown, 1 - open, 2 - encyrpted
+    bit_rate INTEGER,             -- 0 - unknown, else in Mb/s
+    encryption_type VARCHAR(40),  -- e.g. "WPA2 Version 1"
+    quality INTEGER,              -- quality metric, out of 100
+    signal_level INTEGER,         -- signal level, out of 100
+
+    -- state tracking
+    is_favorite INTEGER           -- 0 - not a favorite, 1 - a favorite network    
+);
+
+EOF
+

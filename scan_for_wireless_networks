@@ -1,0 +1,81 @@
+#!/usr/bin/perl
+
+use Data::Dumper;
+
+# Example output to be parsed:
+#
+#          Cell 01 - Address: 8A:E4:33:2F:A1:10
+#                    ESSID:"caseydog-guest"
+#                    Protocol:IEEE 802.11bgn
+#                    Mode:Master
+#                    Frequency:2.412 GHz (Channel 1)
+#                    Encryption key:on
+#                    Bit Rates:144 Mb/s
+#                    Extra:rsn_ie=30140100000fac040100000fac040100000fac020000
+#                    IE: IEEE 802.11i/WPA2 Version 1
+#                        Group Cipher : CCMP
+#                        Pairwise Ciphers (1) : CCMP
+#                        Authentication Suites (1) : PSK
+#                    Quality=100/100  Signal level=70/100
+#          Cell 02 - Address: 88:1F:A1:2F:33:E4
+#                    ESSID:"caseydog"
+#                    Protocol:IEEE 802.11bgn
+#                    ...and so on...
+
+$iwlist_bin = "/sbin/iwlist";
+$interface  = "wlan1";
+
+$cmd = "$iwlist_bin $interface scanning";
+open FIN, "$cmd|" or die "Can't execute: $cmd";
+$cell = undef;
+while(<FIN>) {
+	if ( /Cell \d+ - Address: ([0-9A-Fa-f:]+)/ ) {
+		$cell = &save_last_cell_start_new_cell($cell);
+		$cell->{mac_address} = $1;
+	} elsif ( /ESSID:"(.*)"/ ) {
+		$cell->{essid} = $1;
+	} elsif ( /Protocol:.*802\.11(\w+)/ ) {
+		$cell->{protocol}  = 0;
+		$cell->{protocol} |= 1 if ( $1 =~ /b/ );
+		$cell->{protocol} |= 2 if ( $1 =~ /g/ );
+		$cell->{protocol} |= 4 if ( $1 =~ /n/ );
+	} elsif ( /Mode:(\w+)/ ) {
+		if ( $1 eq "Master" ) {
+			$cell->{mode} = 2;
+		} elsif ( $1 eq "Ad-Hoc" ) {  # TODO: check this
+			$cell->{mode} = 1;
+		}
+	} elsif ( /Frequency:.*Channel (\d+)/ ) {
+		$cell->{channel} = $1;
+	} elsif ( /Encryption key:(\w+)/ ) {
+		if ( $1 == "on" ) { $cell->{is_encrypted} = 2;
+		} elsif ( $1 == "off" ) {
+			$cell->{is_encrypted} = 1;
+		}
+	} elsif ( /IE:\s+(.*)/ ) {
+		$cell->{encryption_type} = $1;
+	} elsif ( /Quality=(\d+).*Signal level=(\d+)/ ) {
+		$cell->{quality}      = $1;
+		$cell->{signal_level} = $2;
+	}
+}
+close FIN;
+
+push(@cells, $cell) if (defined $cell);
+foreach(@cells) {
+	print Dumper($_);
+}
+
+sub save_last_cell_start_new_cell {
+	push(@cells, $cell) if (defined $cell);
+	$cell = {};
+
+	foreach(qw/essid mac_address encryption_type/) {
+		$cell->{$_} = "";
+	}
+	foreach(qw/protocol mode channel is_encrypted encryption_type quality signal_level is_favorite/) {
+		$cell->{$_} = 0;
+	}
+	return $cell;
+}
+
