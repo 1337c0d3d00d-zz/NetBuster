@@ -21,23 +21,23 @@ apt-get install -y \
 
 # Configure DHCPd
 TARGET=/etc/dhcp/dhcpd.conf
-rm -f $TARGET && ln -s $OVERLAY/$TARGET $TARGET
+rm -f $TARGET && ln -s $OVERLAY$TARGET $TARGET
 TARGET=/etc/default/isc-dhcp-server
-rm -f $TARGET && ln -s $OVERLAY/$TARGET $TARGET
+rm -f $TARGET && ln -s $OVERLAY$TARGET $TARGET
 
 # Set network interface config
 TARGET=/etc/network/interfaces
-rm -f $TARGET && ln -s $OVERLAY/$TARGET $TARGET
+rm -f $TARGET && ln -s $OVERLAY$TARGET $TARGET
 
 # hostapd config
 TARGET=/etc/hostapd/hostapd.conf
-rm -f $TARGET && ln -s $OVERLAY/$TARGET $TARGET
+rm -f $TARGET && ln -s $OVERLAY$TARGET $TARGET
 TARGET=/etc/default/hostapd
-rm -f $TARGET && ln -s $OVERLAY/$TARGET $TARGET
+rm -f $TARGET && ln -s $OVERLAY$TARGET $TARGET
 
 # NAT
 TARGET=/etc/sysctl.conf
-rm -f $TARGET && ln -s $OVERLAY/$TARGET $TARGET
+rm -f $TARGET && ln -s $OVERLAY$TARGET $TARGET
 echo 1 > /proc/sys/net/ipv4/ip_forward
 # NAT commands to generate config
 # iptables -t nat -A POSTROUTING -o eth0 -j MASQUERADE
@@ -47,11 +47,11 @@ echo 1 > /proc/sys/net/ipv4/ip_forward
 # View tables: iptables -S
 # iptables-save > /etc/iptables.ipv4.nat
 TARGET=/etc/iptables.ipv4.nat
-rm -f $TARGET && ln -s $OVERLAY/$TARGET $TARGET
+rm -f $TARGET && ln -s $OVERLAY$TARGET $TARGET
 
 # Update hostapd binary
 TARGET=/usr/sbin/hostapd
-rm -f $TARGET && ln -s $OVERLAY/$TARGET $TARGET
+rm -f $TARGET && ln -s $OVERLAY$TARGET $TARGET
 
 # Enable daemons on startup
 update-rc.d hostapd enable 
