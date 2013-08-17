@@ -40,9 +40,9 @@ TARGET=/etc/sysctl.conf
 rm -f $TARGET && ln -s $OVERLAY$TARGET $TARGET
 echo 1 > /proc/sys/net/ipv4/ip_forward
 # NAT commands to generate config
-# iptables -t nat -A POSTROUTING -o eth0 -j MASQUERADE
-# iptables -A FORWARD -i eth0 -o wlan0 -m state --state RELATED,ESTABLISHED -j ACCEPT
-# iptables -A FORWARD -i wlan0 -o eth0 -j ACCEPT
+# iptables -t nat -A POSTROUTING -o br0 -j MASQUERADE
+# iptables -A FORWARD -i br0 -o wlan0 -m state --state RELATED,ESTABLISHED -j ACCEPT
+# iptables -A FORWARD -i wlan0 -o br0 -j ACCEPT
 # View tables: iptables -t nat -S
 # View tables: iptables -S
 # iptables-save > /etc/iptables.ipv4.nat
@@ -56,6 +56,15 @@ rm -f $TARGET && ln -s $OVERLAY$TARGET $TARGET
 # Enable daemons on startup
 update-rc.d hostapd enable 
 update-rc.d isc-dhcp-server enable
+
+
+##############################################################################
+# Bridging
+##############################################################################
+
+apt-get install -y \
+  bridge-utils
+
 
 
 ##############################################################################
