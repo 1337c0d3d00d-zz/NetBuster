@@ -62,5 +62,8 @@ update-rc.d isc-dhcp-server enable
 # Database
 ##############################################################################
 
+apt-get install -y \
+  sqlite3 libdbi-perl libdbd-sqlite3-perl
+
 ./initialize_database
 
