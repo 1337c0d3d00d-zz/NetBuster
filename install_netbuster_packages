@@ -67,3 +67,9 @@ apt-get install -y \
 
 ./initialize_database
 
+#####################
+# APACHE WEB SERVER #
+#####################
+apt-get install -y apache2 php5 libapache2-mod-php5
+
+
