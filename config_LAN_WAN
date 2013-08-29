@@ -1,0 +1,99 @@
+#!/bin/bash
+
+set -e
+
+LAN_BRIDGE="br0"
+WAN_BRIDGE="br1"
+LAN_IP="192.168.42.1/24"
+LAN_BROADCAST="192.168.42.255"
+
+contains() {
+  for word in $1; do
+    [[ $word = $2 ]] && return 0
+  done
+  return 1
+}
+
+setup_bridge() {
+	BRIDGE=$1
+	IFACES=$2
+
+	echo "Setting up bridge $BRIDGE with interfaces '$IFACES' ..."
+
+	# Create the bridge if it does not exist
+	if [ ! -d /sys/class/net/$BRIDGE ]; then
+		echo "-- creating bridge: $BRIDGE"
+		brctl addbr $BRIDGE
+	fi
+
+	# Get the list of interfaces currently in the bridge
+	IFACES_CURRENT=`brctl show $BRIDGE | expand | cut -c57- | grep -v interfaces | sort | sed ':a;/0$/{N;s/\n/ /;ba}'`
+	if [ ! -z "$IFACES_CURRENT" ]; then
+		echo "-- current interfaces in $BRIDGE: $IFACES_CURRENT"
+	fi
+
+	# Remove any interfaces currently in the bridge but not in the requested configuration
+	for iface in $IFACES_CURRENT; do
+		if ! contains "$IFACES" $iface; then
+			echo "-- removing $iface from $BRIDGE ..."
+			brctl delif $BRIDGE $iface
+		fi
+	done
+
+	# Add any interfaces currently not in the bridge but in the requested configuration
+	for iface in $IFACES; do
+		if ! contains "$IFACES_CURRENT" $iface; then
+			echo "-- adding $iface to $BRIDGE ..."
+			brctl addif $BRIDGE $iface
+		fi
+	done
+}
+
+case "$1" in
+	0)
+		# FOR DEBUG ONLY: eth0
+		LAN_IFACES="wlan0"
+		WAN_IFACE="wlan1"
+		DISABLED_IFACES=""
+		;;
+	1)
+		LAN_IFACES="wlan0 eth0"
+		WAN_IFACE="wlan1"
+		DISABLED_IFACES=""
+		;;
+	2)
+		LAN_IFACES="wlan0"
+		WAN_IFACE="wlan1"
+		DISABLED_IFACES="eth0"
+		;;
+	3)
+		LAN_IFACES="eth0"
+		WAN_IFACE="wlan1"
+		DISABLED_IFACES="wlan0"
+		;;
+	4)
+		LAN_IFACES="wlan0"
+		WAN_IFACE="eth0"
+		DISABLED_IFACES="wlan1"
+		;;
+esac
+
+echo "Requested LAN_IFACES = $LAN_IFACES"
+echo "Requested WAN_IFACE = $WAN_IFACE"
+echo "Requested DISABLED_IFACES = $DISABLED_IFACES"
+echo ""
+
+if [ ! -z "$DISABLED_IFACES" ]; then
+	echo "Disabling interfaces: $DISABLED_IFACES"
+	ifdown $DISABLED_IFACES
+fi
+
+# Configure the LAN side
+setup_bridge $LAN_BRIDGE "$LAN_IFACES"
+#ip addr flush br0
+#ip addr add $LAN_IP broadcast $LAN_BROADCAST dev $LAN_BRIDGE
+
+# Configure the WAN side
+setup_bridge $WAN_BRIDGE "$WAN_IFACE"
+
+exit 0

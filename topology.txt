@@ -1,0 +1,7 @@
+wlan0 - 1st wireless adapter - Pi-hosted access point (always LAN)
+wlan1 - 2nd wireless adapter - connects to remote access point (either off or WAN)
+eth0  - Ethernet port        - connects to remote gateway (as WAN) or to user's computer (as LAN)
+
+br0 - LAN
+br1 - WAN
+
