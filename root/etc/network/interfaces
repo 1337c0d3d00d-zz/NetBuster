@@ -1,9 +1,7 @@
 auto lo br0 br1
 
 iface lo inet loopback
-iface eth0 inet dhcp
-#iface eth0 inet static
-#  address 192.168.1.170
+iface eth0 inet manual
 
 allow-hotplug wlan0
 iface wlan0 inet manual
@@ -15,7 +13,7 @@ iface wlan1 inet manual
 wpa-roam /etc/wpa_supplicant/wpa_supplicant.conf
 
 iface br0 inet static
-	bridge_ports wlan0
+	bridge_ports wlan0 eth0
 	address 192.168.42.1
 	broadcast 192.168.42.255
 	netmask 255.255.255.0
