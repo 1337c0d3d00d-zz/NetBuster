@@ -77,5 +77,8 @@ apt-get install -y apache2 php5 libapache2-mod-php5
 #####################
 apt-get install php5-sqlite
 
+# Configure Webpages
+TARGET=/var/www
+rm -f $TARGET && ln -s $OVERLAY$TARGET $TARGET
 
 
