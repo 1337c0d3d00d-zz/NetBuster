@@ -36,6 +36,8 @@ while(<FIN>) {
 		$cell->{mac_address} =~ tr/a-f/A-F/;
 	} elsif ( /ESSID:"(.*)"/ ) {
 		$cell->{essid} = $1;
+	        # strip out unwanted chars from the SSID
+                $cell->{essid} =~ s/'//;
 	} elsif ( /Protocol:.*802\.11(\w+)/ ) {
 		$cell->{protocol}  = 0;
 		$cell->{protocol} |= 1 if ( $1 =~ /b/ );
