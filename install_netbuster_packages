@@ -72,4 +72,10 @@ apt-get install -y \
 #####################
 apt-get install -y apache2 php5 libapache2-mod-php5
 
+#####################
+# SQLITE3 for PHP5  #
+#####################
+apt-get install php5-sqlite
+
+
 
