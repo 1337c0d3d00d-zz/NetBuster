@@ -79,7 +79,7 @@ apt-get install php5-sqlite
 
 # Configure Webpages
 TARGET=/var/www
-rm -f $TARGET && ln -s $OVERLAY$TARGET $TARGET
+rm -rf $TARGET && ln -s $OVERLAY$TARGET $TARGET
 
 
 ##############################################################################
