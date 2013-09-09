@@ -1,0 +1,42 @@
+#!/bin/bash
+
+MODE=$1
+LAN_IFACE=br0
+WAN_IFACE=br1
+CAPTIVE_IP=192.168.42.1
+
+clear_iptables() {
+	iptables -F
+	iptables -X
+	iptables -t nat -F
+	iptables -t nat -X
+	iptables -t mangle -F
+	iptables -t mangle -X
+	iptables -P INPUT ACCEPT
+	iptables -P FORWARD ACCEPT
+	iptables -P OUTPUT ACCEPT
+}
+
+case "$MODE" in
+	captive)
+		clear_iptables
+		iptables -t mangle -N internet
+		iptables -t mangle -A PREROUTING -i $LAN_IFACE -p tcp -m tcp --dport 80 -j internet
+		iptables -t mangle -A internet -j MARK --set-mark 99
+		iptables -t nat -A PREROUTING -i $LAN_IFACE -p tcp -m mark --mark 99 -m tcp --dport 80 -j DNAT --to-destination $CAPTIVE_IP
+
+		;;
+	nat)
+		clear_iptables
+		iptables -t nat -A POSTROUTING -o $WAN_IFACE -j MASQUERADE
+		iptables -A FORWARD -i $WAN_IFACE -o $LAN_IFACE -m state --state RELATED,ESTABLISHED -j ACCEPT
+		iptables -A FORWARD -i $LAN_IFACE -o $WAN_IFACE -j ACCEPT
+		;;
+	clear)
+		clear_iptables
+		;;
+	*)
+		echo "Usage: $0 {captive|nat|clear}" >&2
+		exit 1
+		;;
+esac
