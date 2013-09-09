@@ -1,0 +1,100 @@
+#!/usr/bin/perl
+
+#### -------------------- LANGUAGE DIRECTIVES -------------------
+
+use strict;
+use feature "switch";
+
+
+#### -------------------- IMPORT DEPENDENCIES -------------------
+
+use Fcntl qw(:DEFAULT :flock :seek :Fcompat);
+use Sys::Syslog qw(:standard :macros);
+
+
+#### -------------------- INITIALIZE VARIABLES -------------------
+
+our $state_file      = "/var/netbuster.state";
+our $state_fh        = undef;
+our $state_contents  = undef;
+our $log_destination = 3;  # 1 - stdout, 2 - syslog, 3 - both
+our $log_is_open     = 0;
+our $log_identity    = "netbuster";
+
+
+#### -------------------- MAIN -------------------
+
+&state_lock;
+if ($ARGV[0] eq "startup") {
+	&handle_startup;
+}
+&state_unlock;
+
+exit 0;
+
+
+
+#### -------------------- HANDLING ACTIONS -------------------
+
+sub handle_startup {
+	my $cmd = "./handle_startup wlan1 /etc/wpa_supplicant/wpa_supplicant.conf";
+	&execute_cmd($cmd);
+}
+
+
+#### -------------------- UTILITY FUNCTIONS -------------------
+
+sub execute_cmd {
+	my($cmd) = @_;
+	log_print(LOG_INFO, "Executing: $cmd");
+	open FIN, "$cmd 2>&1|" or die "Can't run command ($cmd): $!";
+	while(<FIN>) {
+		chomp;
+		log_print(LOG_INFO, "--> $_");
+	}
+	close FIN;
+}
+
+
+#### -------------------- LOGGING FUNCTIONS -------------------
+
+sub log_print {
+	my($level, $string) = @_;
+	if ($log_destination & 2) {
+		if (!$log_is_open) {
+			openlog($log_identity, 'pid,ndelay', LOG_USER);
+			$log_is_open = 1;
+		}
+		syslog($level, '%s', $string);
+	}
+	if ($log_destination & 1) {
+		print "$string\n";
+	}
+}
+
+
+#### -------------------- STATE FILE FUNCTIONS -------------------
+
+# Gains an exclusive lock to the state file
+#   - blocks until lock is obtained
+#   - prevents multiple runs of this script from clobbering each other
+# Reads contents of state file into a state variable.
+sub state_lock {
+	#open $state_fh, '+>', $state_file or die "Couldn't open $state_file: $!";
+	sysopen($state_fh, $state_file, O_RDWR | O_CREAT) or die "Could not open $state_file: $!";
+	$state_fh->autoflush(1);
+	flock($state_fh, LOCK_EX) or die "Could not lock file $state_file: $!";
+	$state_contents = <$state_fh> || "";
+	&log_print(LOG_INFO, "starting with state '$state_contents'");
+}
+
+# Writes the new state variable to the state file.
+# Closes/Unlocks the state file.
+sub state_unlock {
+	seek($state_fh, 0, SEEK_SET) or die "Could not seek $state_file: $!";
+	&log_print(LOG_INFO, "ending with state '$state_contents'");
+	print $state_fh $state_contents;
+	truncate($state_fh, tell($state_fh)) or die "Could not truncate $state_file: $!";
+	close $state_fh or die "Could not close lock file $state_file: $!";
+}
+
