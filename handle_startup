@@ -1,0 +1,22 @@
+#!/bin/bash
+
+set -e
+
+IFACE=$1
+CONFIG_FILE=$2
+
+#/sbin/wpa_supplicant -B -i $IFACE -c $CONFIG_FILE
+
+# Configure the bridges
+#/home/pi/rpi-netbuster/config_LAN_WAN 4
+/home/pi/rpi-netbuster/config_LAN_WAN 1
+
+# Start offering dhcp on the LAN bridge
+/usr/sbin/dhcpd br0 -cf /etc/dhcp/dhcpd.conf
+
+# Start the soft AP
+/etc/init.d/hostapd start
+
+#/sbin/wpa_supplicant -s -B -P /var/run/wpa_supplicant.wlan1.pid -i wlan1 -W -D nl80211,wext -c /etc/wpa_supplicant/wpa_supplicant.conf
+#/sbin/wpa_cli -B -P /var/run/wpa_action.wlan1.pid -i wlan1 -p /var/run/wpa_supplicant -a /sbin/wpa_action
+

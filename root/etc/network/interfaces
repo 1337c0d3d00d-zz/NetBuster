@@ -1,4 +1,4 @@
-auto lo br0
+auto lo
 
 iface lo inet loopback
 iface eth0 inet manual
@@ -6,16 +6,8 @@ iface eth0 inet manual
 allow-hotplug wlan0
 iface wlan0 inet manual
 
-#up iptables-restore < /etc/iptables.ipv4.nat
-
 allow-hotplug wlan1
-auto wlan1
-iface wlan1 inet dhcp
+iface wlan1 inet manual
 wpa-roam /etc/wpa_supplicant/wpa_supplicant.conf
-
-iface br0 inet static
-	bridge_ports wlan0 eth0
-	address 192.168.42.1
-	broadcast 192.168.42.255
-	netmask 255.255.255.0
+#up logger wpa_cli status
 

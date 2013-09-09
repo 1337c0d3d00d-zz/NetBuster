@@ -90,10 +90,13 @@ fi
 
 # Configure the LAN side
 setup_bridge $LAN_BRIDGE "$LAN_IFACES"
-#ip addr flush br0
-#ip addr add $LAN_IP broadcast $LAN_BROADCAST dev $LAN_BRIDGE
+ip addr flush br0
+ip addr add $LAN_IP broadcast $LAN_BROADCAST dev $LAN_BRIDGE
 
 # Configure the WAN side
 setup_bridge $WAN_BRIDGE "$WAN_IFACE"
+
+#/usr/sbin/ifplugd -i eth0 -q -f -u0 -d10 -w -I
+#/sbin/dhclient eth0
 
 exit 0

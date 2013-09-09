@@ -1,0 +1,2 @@
+need to run:
+sudo update-rc.d -f hostapd remove
