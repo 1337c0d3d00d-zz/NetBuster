@@ -82,3 +82,10 @@ TARGET=/var/www
 rm -f $TARGET && ln -s $OVERLAY$TARGET $TARGET
 
 
+##############################################################################
+# Control over ifplugd
+##############################################################################
+
+TARGET=/etc/default/ifplugd
+rm -f $TARGET && ln -s $OVERLAY$TARGET $TARGET
+
