@@ -1,0 +1,16 @@
+#!/bin/bash
+
+set -e
+
+IFACE="wlan1"
+
+SSID=$1
+KEY=$2
+
+NETWORK_IDX=`wpa_cli add_network | grep -v Selected`
+
+wpa_cli set_network $NETWORK_IDX ssid \"$SSID\"
+wpa_cli set_network $NETWORK_IDX psk \"$KEY\"
+wpa_cli select_network $NETWORK_IDX
+
+exit 0
