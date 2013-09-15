@@ -18,6 +18,7 @@ $i = 0;
 $result = $db->query('SELECT * FROM WirelessNetworks');
 while ($res = $result->fetchArray()) {
  $row[$i]['ssid'] = $res['essid'];
+ $row[$i]['is_encrypted'] = $res['is_encrypted'];
  $i++;
 }
  /*print_r($row);*/
@@ -47,7 +48,11 @@ while ($res = $result->fetchArray()) {
                 <li><a href="#">Select WAN Network</a>
                         <ul class="sub_menu">
 				 <?php foreach ($row as $r) { ?>
-				   <li><a href="#"><?php echo $r['ssid']; ?></a></li>
+				   <li><a href="#"><?php echo $r['ssid']; ?> 
+				   <?php if ($r['is_encrypted']) 
+                                           echo "<img src=\"padlock.png\" height=\"21\" width=\"21\">"; ?>
+				   </a>
+				   </li>
 	                         <?php } ?>
                         </ul>
                 </li>
