@@ -1,0 +1,18 @@
+#!/bin/bash
+
+set -e
+
+LAN="wlan0"
+WAN="wlan1"
+
+SSID=$1
+KEY=$2
+
+echo "Bridging interfaces..";
+
+sudo iptables -F
+sudo iptables -Z
+sudo iptables -t nat -A POSTROUTING -o $WAN -j MASQUERADE
+sudo iptables -A FORWARD -i $WAN -o $LAN -m state --state RELATED,ESTABLISHED -j ACCEPT
+sudo iptables -A FORWARD -i $LAN -o $WAN -j ACCEPT
+

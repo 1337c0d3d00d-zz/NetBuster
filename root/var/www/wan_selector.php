@@ -7,7 +7,7 @@ class MyDB extends SQLite3
 {
     function __construct()
     {
-        $this->open('/home/pi/rpi-netbuster/state.db');
+        $this->open('/home/pi/NetBuster/state.db');
     }
 }
 
@@ -32,7 +32,7 @@ while ($res = $result->fetchArray()) {
     <!--[if lte IE 7]>
         <link rel="stylesheet" type="text/css" href="css/ie.css" media="screen" />
     <![endif]-->
-        <script type="text/javascript" src="js/jquery-1.3.1.min.js"></script>
+        <script type="text/javascript" src="js/jquery-3.1.1.min.js"></script>
         <script type="text/javascript" language="javascript" src="js/jquery.dropdownPlain.js"></script>
 </head>
 
@@ -42,13 +42,13 @@ while ($res = $result->fetchArray()) {
 
 <p align=center>
 <br><br><br><br><br>
-<font size=+1 color=#ff0000>Net Buster Wan Selector</font><br><br><br>
+<font size=+1 color=#ff0000>Net Buster Internet Selector</font><br><br><br>
 
        <ul class="dropdown">
-                <li><a href="#">Select WAN Network</a>
+                <li><a href="#">Select an Internet Source</a>
                         <ul class="sub_menu">
 				 <?php foreach ($row as $r) { ?>
-				   <li><a href="#"><?php echo $r['ssid']; ?> 
+				   <li><a href="wan_selected.php?ssid=<?php echo $r['ssid']; ?>"><?php echo $r['ssid']; ?> 
 				   <?php if ($r['is_encrypted']) 
                                            echo "<img src=\"padlock.png\" height=\"21\" width=\"21\">"; ?>
 				   </a>

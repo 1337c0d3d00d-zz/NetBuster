@@ -16,6 +16,14 @@ set -e
 # Networking, DHCP server, access point
 ##############################################################################
 
+# NOTE: This version of hostapd is v0.8.x which does not support the rpi3 internal wifi
+# for that you will need to go here: http://w1.fi/hostapd and build version 2.6 to add
+# nl80211 driver support for the internal wifi and replace the binary with this one.
+# To build the source you will need to add these packages as well (uncomment)
+apt-get install -y libssl-dev
+apt-get install -y libnl-genl-3-dev
+apt-get install -y libnl-3-dev
+
 apt-get install -y \
   hostapd isc-dhcp-server
 
@@ -78,7 +86,10 @@ apt-get install -y apache2 php5 libapache2-mod-php5
 apt-get install php5-sqlite
 
 # Configure Webpages
-TARGET=/var/www
+# later version of raspbian use new apache2 that uses html directory now
+# uncomment if using rpi3 with latest installs
+TARGET=/var/www/html
+#TARGET=/var/www
 rm -rf $TARGET && ln -s $OVERLAY$TARGET $TARGET
 
 

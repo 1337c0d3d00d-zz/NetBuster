@@ -7,10 +7,29 @@ IFACE="wlan1"
 SSID=$1
 KEY=$2
 
-NETWORK_IDX=`wpa_cli add_network | grep -v Selected`
+echo "connecting to ssid:\"$SSID\" with pass:\"$KEY\"";
 
-wpa_cli set_network $NETWORK_IDX ssid \"$SSID\"
-wpa_cli set_network $NETWORK_IDX psk \"$KEY\"
-wpa_cli select_network $NETWORK_IDX
+#NETWORK_IDX=`wpa_cli add_network | grep -v Selected`
 
-exit 0
+#wpa_cli set_network $NETWORK_IDX ssid \"$SSID\"
+#wpa_cli set_network $NETWORK_IDX psk \"$KEY\"
+#wpa_cli select_network $NETWORK_IDX
+
+wpa_cli -i$IFACE disconnect
+for i in `wpa_cli list_networks | grep ^[0-9] | cut -f1`; do wpa_cli -iwlan1 remove_network $i; done
+wpa_cli -i$IFACE add_network
+wpa_cli -i$IFACE set_network 0 auth_alg OPEN
+wpa_cli -i$IFACE set_network 0 key_mgmt WPA-PSK
+wpa_cli -i$IFACE set_network 0 psk \"$KEY\"
+wpa_cli -i$IFACE set_network 0 mode 0
+wpa_cli -i$IFACE set_network 0 ssid \"$SSID\"
+wpa_cli -i$IFACE select_network 0
+wpa_cli -i$IFACE enable_network 0
+wpa_cli -i$IFACE reassociate
+
+# wait to establish the connection
+sleep 5
+wpa_cli -i$IFACE status
+iw $IFACE link
+
+/home/pi/NetBuster/bridge_ssids
