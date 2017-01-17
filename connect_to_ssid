@@ -7,7 +7,7 @@ IFACE="wlan1"
 SSID=$1
 KEY=$2
 
-echo "connecting to ssid:\"$SSID\" with pass:\"$KEY\"";
+echo "connecting to ssid:\"$SSID\"";
 
 #NETWORK_IDX=`wpa_cli add_network | grep -v Selected`
 

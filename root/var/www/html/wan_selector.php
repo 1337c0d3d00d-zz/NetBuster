@@ -1,4 +1,9 @@
 <?php
+
+/* Kick off a scan and store the results into our database */
+$result = shell_exec('/home/pi/NetBuster/scan_for_wireless_networks');
+/*echo "result=$result";*/
+
 /**
  * Simple example of extending the SQLite3 class and changing the __construct
  * parameters, then using the open method to initialize the DB.
@@ -42,7 +47,7 @@ while ($res = $result->fetchArray()) {
 
 <p align=center>
 <br><br><br><br><br>
-<font size=+1 color=#ff0000>Net Buster Internet Selector</font><br><br><br>
+<font size=+1 color=#ff0000>NetBuster Internet Selector</font><br><br><br>
 
        <ul class="dropdown">
                 <li><a href="#">Select an Internet Source</a>

@@ -1,6 +1,6 @@
 <html>
 <head>
-    <title> Net Buster </title>
+    <title> NetBuster </title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
     <link rel="stylesheet" href="css/style.css" type="text/css" media="screen, projection"/>
     <!--[if lte IE 7]>
