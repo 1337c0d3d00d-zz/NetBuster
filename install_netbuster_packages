@@ -105,4 +105,6 @@ rm -f $TARGET && ln -s $OVERLAY$TARGET $TARGET
 #######
 apt-get install libevent-dev
 apg-get install tor
+TARGET=/etc/tor/torrc
+rm -f $TARGET && ln -s $OVERLAY$TARGET $TARGET
 
