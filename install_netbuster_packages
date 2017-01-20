@@ -100,3 +100,9 @@ rm -rf $TARGET && ln -s $OVERLAY$TARGET $TARGET
 TARGET=/etc/default/ifplugd
 rm -f $TARGET && ln -s $OVERLAY$TARGET $TARGET
 
+#######
+# TOR #
+#######
+apt-get install libevent-dev
+apg-get install tor
+

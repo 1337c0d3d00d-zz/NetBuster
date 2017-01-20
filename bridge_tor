@@ -1,0 +1,15 @@
+#!/bin/bash
+
+set -e
+
+LAN="wlan0"
+WAN="wlan1"
+
+SSID=$1
+KEY=$2
+
+echo "Switching to TOR Network..";
+
+# Redirect all port 80 traffic to TOR port 9050
+sudo iptables -t nat -A PREROUTING -i $WAN -p tcp --dport 80 -j REDIRECT --to-port 9050
+
