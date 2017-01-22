@@ -12,10 +12,18 @@
 ## Tor will look for this file in various places based on your platform:
 ## https://www.torproject.org/docs/faq#torrc
 
+VirtualAddrNetwork 10.192.0.0/10
+AutomapHostsSuffixes .onion,.exit
+AutomapHostsOnResolve 1
+TransPort 9040
+TransListenAddress 192.168.42.1
+DNSPort 53
+DNSListenAddress 192.168.42.1
+
 ## Tor opens a socks proxy on port 9050 by default -- even if you don't
 ## configure one below. Set "SocksPort 0" if you plan to run Tor only
 ## as a relay, and not make any local application connections yourself.
-SocksPort 192.168.1.21:9050
+#SocksPort 192.168.1.21:9050
 #SocksPort 9050 # Default: Bind to localhost:9050 for local connections.
 #SocksPort 192.168.0.1:9100 # Bind to this address:port too.
 
@@ -35,7 +43,7 @@ SocksPort 192.168.1.21:9050
 ## may provide sensitive information to an attacker who obtains the logs.
 ##
 ## Send all messages of level 'notice' or higher to /var/log/tor/notices.log
-#Log notice file /var/log/tor/notices.log
+Log notice file /var/log/tor/notices.log
 ## Send every possible message to /var/log/tor/debug.log
 #Log debug file /var/log/tor/debug.log
 ## Use the system log instead of Tor's logfiles
