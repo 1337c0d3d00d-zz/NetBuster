@@ -28,4 +28,5 @@ root	ALL=(ALL:ALL) ALL
 
 # allow apache to change iptables for netbuster (SECURITY CONCERNS)
 www-data ALL = NOPASSWD: /sbin/iptables
+www-data ALL = NOPASSWD: /sbin/iwlist
 

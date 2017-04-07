@@ -43,9 +43,9 @@ rm -f $TARGET && ln -s $OVERLAY$TARGET $TARGET
 TARGET=/etc/default/hostapd
 rm -f $TARGET && ln -s $OVERLAY$TARGET $TARGET
 
-# sudoers config
+# sudoers config, need to keep permissions to need to copy, cant symbolic link
 TARGET=/etc/sudoers
-rm -f $TARGET && ln -s $OVERLAY$TARGET $TARGET
+cp $OVERLAY$TARGET $TARGET
 
 # rc.local startup config
 TARGET=/etc/rc.local
