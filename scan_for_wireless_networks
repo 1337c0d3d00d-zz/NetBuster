@@ -76,7 +76,7 @@ foreach(@cells) {
 # See for tutorial: http://zetcode.com/db/sqliteperltutorial/
 #
 
-$dsn = "dbi:SQLite:dbname=state.db";
+$dsn = "dbi:SQLite:dbname=/home/pi/NetBuster/state.db";
 $dbh = DBI->connect($dsn, "", "", { RaiseError => 1, AutoCommit => 0 }) or die $DBI::errstr;
 
 foreach $cell (@cells) {

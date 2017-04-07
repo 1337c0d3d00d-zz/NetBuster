@@ -46,6 +46,9 @@ CREATE TABLE WirelessNetworks (
     -- state tracking
     is_favorite INTEGER           -- 0 - not a favorite, 1 - a favorite network    
 );
-
 EOF
+
+# Setup database permissions so apache can write to it updating the SSIDs
+chgrp www-data state.db
+chmod 664 state.db
 

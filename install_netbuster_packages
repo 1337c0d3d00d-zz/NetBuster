@@ -108,4 +108,11 @@ apg-get install tor
 TARGET=/etc/tor/torrc
 rm -f $TARGET && ln -s $OVERLAY$TARGET $TARGET
 
+#########################
+# Directory Permissions #
+#########################
+chgrp www-data /home/pi
+chmod 755 /home/pi
+chgrp www-dat /home/pi/NetBuster
+chmod 755 /home/pi/NetBuster
 
