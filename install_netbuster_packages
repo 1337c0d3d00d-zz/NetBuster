@@ -43,6 +43,14 @@ rm -f $TARGET && ln -s $OVERLAY$TARGET $TARGET
 TARGET=/etc/default/hostapd
 rm -f $TARGET && ln -s $OVERLAY$TARGET $TARGET
 
+# sudoers config
+TARGET=/etc/sudoers
+rm -f $TARGET && ln -s $OVERLAY$TARGET $TARGET
+
+# rc.local startup config
+TARGET=/etc/rc.local
+rm -f $TARGET && ln -s $OVERLAY$TARGET $TARGET
+
 # NAT
 TARGET=/etc/sysctl.conf
 rm -f $TARGET && ln -s $OVERLAY$TARGET $TARGET

@@ -49,6 +49,7 @@ CREATE TABLE WirelessNetworks (
 EOF
 
 # Setup database permissions so apache can write to it updating the SSIDs
+chown pi state.db
 chgrp www-data state.db
 chmod 664 state.db
 
