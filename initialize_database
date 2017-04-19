@@ -52,4 +52,6 @@ EOF
 chown pi state.db
 chgrp www-data state.db
 chmod 664 state.db
-
+chgrp www-data /home/pi/NetBuster
+chmod 775 /home/pi/NetBuster
+chgrp www-data /home/pi

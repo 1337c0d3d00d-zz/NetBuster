@@ -18,6 +18,9 @@ if [ "$_IP" ]; then
 fi
 
 # execute first wifi1 scan
-sudo /sbin/iwlist wlan1 scanning
+/sbin/iwlist wlan1 scanning
+
+# startup i2pd
+/usr/sbin/i2pd --conf /etc/i2pd/i2pd.conf --datadir /var/lib/i2pd
 
 exit 0

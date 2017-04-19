@@ -33,6 +33,10 @@ rm -f $TARGET && ln -s $OVERLAY$TARGET $TARGET
 TARGET=/etc/default/isc-dhcp-server
 rm -f $TARGET && ln -s $OVERLAY$TARGET $TARGET
 
+# Configure DHCPcd
+TARGET=/etc/dhcpcd.conf
+rm -f $TARGET && ln -s $OVERLAY$TARGET $TARGET
+
 # Set network interface config
 TARGET=/etc/network/interfaces
 rm -f $TARGET && ln -s $OVERLAY$TARGET $TARGET
@@ -108,12 +112,68 @@ rm -rf $TARGET && ln -s $OVERLAY$TARGET $TARGET
 TARGET=/etc/default/ifplugd
 rm -f $TARGET && ln -s $OVERLAY$TARGET $TARGET
 
-#######
-# TOR #
-#######
+#########################
+# TOR Anonymous Network #
+#########################
 apt-get install libevent-dev
 apg-get install tor
 TARGET=/etc/tor/torrc
+rm -f $TARGET && ln -s $OVERLAY$TARGET $TARGET
+
+#########################
+# I2P Anonymous Network #
+#########################
+
+# OLD METHOD WHICH DOES NOT WORK
+# No good existing packages exist apparently for us, just need to do it manually
+#
+#apt-get install -y software-properties-common
+#apt-get install -y apt-transport-https
+# Build the lsb_release config but replace Raspian with what I2P supports 
+# which is Debian
+#TEST=$(uname -a)
+#echo $TEST
+#OS=$(lsb_release -si)
+#OS="Debian"
+#DESC=$(lsb_release -sd)
+#ARCH=$(uname -m | sed 's/x86_//;s/i[3-6]86/32/')
+#VER=$(lsb_release -sr)
+#echo -e "DISTRIB_ID=$OS\\nDISTRIB_RELEASE=$VER\\nDISTRIB_DESCRIPTION=$DESC\\n"
+#echo -e "DISTRIB_ID=$OS\\nDISTRIB_RELEASE=$VER\\nDISTRIB_DESCRIPTION=$DESC\\n" > /etc/lsb-release
+#apt-add-repository -y ppa:i2p-maintainers/i2p
+#cd /etc/apt/sources.list.d
+#wget https://geti2p.net/_static/i2p-debian-repo.key.asc
+#apt-key add i2p-debian-repo.key.asc
+#apt-get update
+
+# New method is to flat out build the source and provide the binaries
+# Compile the source manually but we did this already for everyone and include
+# it in the distrobution so unless you need a new version this will be commented
+# out for now.
+#
+# Install Boost C++ library 
+#apt-get install libboost1.55-all-dev
+#
+#mkdir /sbin/temp
+#mkdir /sbin/temp/upgrade
+#
+# Use C++ port of i2p for speed and performance
+#wget https://github.com/PurpleI2P/i2pd/archive/2.13.0.tar.gz
+#cd /sbin/temp/upgrade/i2pd-2.13.0
+#tar -xzvf 2.13.0.tar.gz
+#make
+#cp i2pd /home/pi/Netbuster/root/usr/sbin
+
+# Install pre-compiled i2p exec
+TARGET=/usr/sbin/i2pd
+rm -f $TARGET && ln -s $OVERLAY$TARGET $TARGET
+mkdir /etc/i2pd
+mkdir /var/lib/i2pd
+TARGET=/etc/i2pd/i2pd.conf
+rm -f $TARGET && ln -s $OVERLAY$TARGET $TARGET
+
+# Copy over the certificates
+TARGET=/var/lib/i2pd/certificates
 rm -f $TARGET && ln -s $OVERLAY$TARGET $TARGET
 
 #########################
