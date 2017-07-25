@@ -1,13 +1,13 @@
 #!/bin/sh
 
 echo "Installing RPi hardware config file ..."
-cp root/boot/config.txt /boot
-chown root:root /boot/config.txt
-chmod 0755 /boot/config.txt
+sudo cp root/boot/config.txt /boot
+sudo chown root:root /boot/config.txt
+sudo chmod 0755 /boot/config.txt
 
 echo ""
 echo "Expanding root filesystem size ..."
-/usr/bin/raspi-config --expand-rootfs
+sudo /usr/bin/raspi-config --expand-rootfs
 
 echo ""
 echo "Please reboot!!!!"

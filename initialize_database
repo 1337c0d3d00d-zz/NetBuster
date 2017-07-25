@@ -1,5 +1,8 @@
 #!/bin/bash
 
+# install sqlite3. TODO - make this smarter.
+sudo apt-get install -y sqlite3 
+
 # This script creates the sqlite3 database file for Netbuster. If a database already
 # exists, it is deleted first.
 
@@ -50,7 +53,7 @@ EOF
 
 # Setup database permissions so apache can write to it updating the SSIDs
 chown pi state.db
-chgrp www-data state.db
+sudo chgrp www-data state.db
 chmod 664 state.db
 chgrp www-data /home/pi/NetBuster
 chmod 775 /home/pi/NetBuster
