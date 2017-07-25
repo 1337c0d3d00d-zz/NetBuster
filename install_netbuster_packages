@@ -95,7 +95,7 @@ apt-get install -y apache2 php5 libapache2-mod-php5
 #####################
 # SQLITE3 for PHP5  #
 #####################
-apt-get install php5-sqlite
+apt-get install -y php5-sqlite
 
 # Configure Webpages
 # later version of raspbian use new apache2 that uses html directory now
@@ -115,8 +115,8 @@ rm -f $TARGET && ln -s $OVERLAY$TARGET $TARGET
 #########################
 # TOR Anonymous Network #
 #########################
-apt-get install libevent-dev
-apg-get install tor
+apt-get install -y libevent-dev
+apt-get install -y tor
 TARGET=/etc/tor/torrc
 rm -f $TARGET && ln -s $OVERLAY$TARGET $TARGET
 
@@ -152,7 +152,7 @@ rm -f $TARGET && ln -s $OVERLAY$TARGET $TARGET
 # out for now.
 #
 # Install Boost C++ library 
-#apt-get install libboost1.55-all-dev
+#apt-get install -y libboost1.55-all-dev
 #
 #mkdir /sbin/temp
 #mkdir /sbin/temp/upgrade
@@ -167,8 +167,8 @@ rm -f $TARGET && ln -s $OVERLAY$TARGET $TARGET
 # Install pre-compiled i2p exec
 TARGET=/usr/sbin/i2pd
 rm -f $TARGET && ln -s $OVERLAY$TARGET $TARGET
-mkdir /etc/i2pd
-mkdir /var/lib/i2pd
+mkdir -p /etc/i2pd
+mkdir -p /var/lib/i2pd
 TARGET=/etc/i2pd/i2pd.conf
 rm -f $TARGET && ln -s $OVERLAY$TARGET $TARGET
 
@@ -181,6 +181,6 @@ rm -f $TARGET && ln -s $OVERLAY$TARGET $TARGET
 #########################
 chgrp www-data /home/pi
 chmod 755 /home/pi
-chgrp www-dat /home/pi/NetBuster
+chgrp www-data /home/pi/NetBuster
 chmod 755 /home/pi/NetBuster
 
