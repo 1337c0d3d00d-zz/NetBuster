@@ -19,8 +19,18 @@ wpa_cli -i$IFACE disconnect
 for i in `wpa_cli list_networks | grep ^[0-9] | cut -f1`; do wpa_cli -iwlan1 remove_network $i; done
 wpa_cli -i$IFACE add_network
 wpa_cli -i$IFACE set_network 0 auth_alg OPEN
-wpa_cli -i$IFACE set_network 0 key_mgmt WPA-PSK
-wpa_cli -i$IFACE set_network 0 psk \"$KEY\"
+
+# If no password is given then dont use WPA as it is an open network
+if [ -z "$KEY" ]
+then
+  echo "OPEN NETWORK, no password needed..";
+  wpa_cli -i$IFACE set_network 0 key_mgmt NONE
+else
+  echo "WPA detected and using password..";
+  wpa_cli -i$IFACE set_network 0 key_mgmt WPA-PSK
+  wpa_cli -i$IFACE set_network 0 psk \"$KEY\"
+fi
+
 wpa_cli -i$IFACE set_network 0 mode 0
 wpa_cli -i$IFACE set_network 0 ssid \"$SSID\"
 wpa_cli -i$IFACE select_network 0

@@ -53,8 +53,8 @@ while ($res = $result->fetchArray()) {
                 <li><a href="#">Select an Internet Source</a>
                         <ul class="sub_menu">
 				 <?php foreach ($row as $r) { ?>
-				   <li><a href="wan_selected.php?ssid=<?php echo $r['ssid']; ?>"><?php echo $r['ssid']; ?> 
-				   <?php if ($r['is_encrypted']) 
+				   <li><a href="wan_selected.php?ssid=<?php echo $r['ssid']; ?>&is_encrypted=<?php echo $r['is_encrypted']; ?>"><?php echo $r['ssid']; ?> 
+				   <?php if ($r['is_encrypted'] == 2) 
                                            echo "<img src=\"padlock.png\" height=\"21\" width=\"21\">"; ?>
 				   </a>
 				   </li>

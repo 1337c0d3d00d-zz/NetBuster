@@ -16,11 +16,21 @@
 <br><br><br><br><br>
 <font size=+1 color=#ff0000>NetBuster Internet Selector</font><br><br><br>
 
-<form action="wan_connect.php" method="post">
-<font color=#ff0000>Enter the password for <?php echo $_GET["ssid"] ?>:</font>
-<input type="password" name="password">
-<input type="hidden" name="ssid" value="<?php echo $_GET["ssid"] ?>"> 
-</form>
+<?php if ($_GET["is_encrypted"] == 2) 
+  { ?> 
+    <form action="wan_connect.php" method="post">    
+    <font color=#ff0000>Enter the password for <?php echo $_GET["ssid"] ?>:</font> 
+    <input type="password" name="password"> 
+    <input type="hidden" name="ssid" value="<?php echo $_GET["ssid"] ?>">
+    </form>
+  <?php
+  }
+  else
+  { ?>
+    <meta http-equiv="refresh" content="0; url=wan_connect.php?ssid=<?php echo $_GET["ssid"] ?>" />
+  <?php 
+  }   
+?>
 
 </p>
 

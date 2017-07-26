@@ -11,7 +11,14 @@
 <body background="nb_background.jpg">
 <font color=#ff0000>
 <?php 
-  $result = shell_exec('/home/pi/NetBuster/connect_to_ssid ' . $_POST["ssid"] .' ' . $_POST["password"]);
+  if (empty($_GET["password"]))
+  {
+    $result = shell_exec('/home/pi/NetBuster/connect_to_ssid ' . $_GET["ssid"]);
+  }
+  else
+  {
+    $result = shell_exec('/home/pi/NetBuster/connect_to_ssid ' . $_POST["ssid"] .' ' . $_POST["password"]);
+  }  
   echo "result=$result";
 ?>
 </font>
