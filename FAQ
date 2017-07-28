@@ -1,0 +1,42 @@
+The NetBuster FAQ
+
+1) How does the netbuster ethernet port (RJ45) work by default?
+
+Currently it is assigned to 192.168.1.170.  So simply plug it into your computer, add your computer to the 192.168.1.x network and ssh into .170 if you enabled SSH from the INSTALL file on the netbuster.
+
+2) I connected successfully the WAN back-end wifi connection but when I try to browse the web it does not work.
+
+When you first power up the netbuster and try to go through TOR there may not be any learned circuits yet.  It
+can take up to 20-30 minutes to let the directory fetches build to create some circuits to traverse through TOR.  Leave the netbuster on and connected to a WAN connection for a bit before having LAN clients start using it.
+
+If you want to monitor the tor client to wait it try to wait for a circuit you can mointor it here via ssh connection through the ethernet port with this:
+tail /var/log/tor/notices.log -f
+
+When you see it trying to get a circuit it will look like this:
+====
+Jul 28 09:24:17.000 [notice] Tried for 60507 seconds to get a connection to [scrubbed]:0. Giving up. (waiting for circuit)
+Jul 28 09:24:17.000 [notice] Tried for 60505 seconds to get a connection to [scrubbed]:0. Giving up. (waiting for circuit)
+====
+
+When it finds one you will see this:
+====
+Jul 28 09:24:17.000 [notice] Bootstrapped 90%: Establishing a Tor circuit
+Jul 28 09:24:17.000 [notice] Heartbeat: Tor's uptime is 0:02 hours, with 4 circuits open. I've sent 61 kB and received 95 kB.
+Jul 28 09:24:17.000 [notice] Average packaged cell fullness: 38.948%
+Jul 28 09:24:17.000 [notice] TLS write overhead: 8%
+Jul 28 09:24:19.000 [notice] Tor has successfully opened a circuit. Looks like client functionality is working.
+Jul 28 09:24:19.000 [notice] Bootstrapped 100%: Done
+====
+
+3) How do I use the I2P (Invisible Net)?
+
+Currently I2P client is running at the same time as TOR however only the bridged front end LAN traffic is beingforwarded through TOR only out the WAN as default.
+
+To use I2P instead setup your browser to proxy to
+192.168.42.1:4444
+
+You can also directly see the status of the I2P client/monitor by going here:
+192.168.42.1:7070
+ 
+
+
