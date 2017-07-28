@@ -1,0 +1,42 @@
+Welcome to the NetBuster..
+
+1) Download Raspbian Jessie with Desktop and extract the .img from the .zip
+https://www.raspberrypi.org/downloads/raspbian
+
+2) Use SDFormatter to format the SDHC (sd card)
+https://www.sdcard.org/downloads/formatter_4
+
+3) Use Rufus to burn the .img and make it bootable to the SHDC
+http://rufus.akeo.ie 
+
+4) Connect keyboard and plug in an ethernet cable into the Rpi3. It will auto DCHP an IP on your local network.
+
+5) Pull the Netbuster code from the repo as git is already installed in the distro.
+cd /home/pi 
+git clone https://github.com/1337c0d3d00d/NetBuster.git 
+
+6) Initalize the system with the initial setup script to setup the Rpi3 then reboot 
+cd NetBuster 
+./initial_setup 
+reboot 
+
+7) After reboot setup root password, switch to it, update apt-get and then install the required apps and initialize the database
+sudo passwd root
+<select a new password>
+su
+<put in new root password>
+cd /home/pi/NetBuster
+apt-get update
+./install_netbuster_packages
+reboot
+
+8) Everything now is setup and you are ready to go! Now you can connect securely to the net with your device by doing the following steps:
+  - Connect from a device to netbuster.io SSID using 'busterbuster' password
+  - Point device browser to 192.168.42.1
+  - Select the WAN wifi SSID to get out of the box
+  - When it connects and is routing through TOR, there is just lots of debugging output on the webpage but the thing that tells you it worked is the 'bridging connections..'
+  - Then just browse to www.whatsmyip.org to see your IP is from some foreign country to verify it is working.
+  - Continue to browse securely.
+
+Enjoy!
+
