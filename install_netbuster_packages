@@ -30,6 +30,8 @@ apt-get install -y \
 # Configure DHCPd
 TARGET=/etc/dhcp/dhcpd.conf
 rm -f $TARGET && ln -s $OVERLAY$TARGET $TARGET
+TARGET=/etc/dhcp/dhclient.conf
+rm -f $TARGET && ln -s $OVERLAY$TARGET $TARGET
 TARGET=/etc/default/isc-dhcp-server
 rm -f $TARGET && ln -s $OVERLAY$TARGET $TARGET
 
