@@ -38,6 +38,12 @@ reboot
   - Then just browse to www.whatsmyip.org to see your IP is from some foreign country to verify it is working.
   - Continue to browse securely.
 
+9) [OPTIONAL]: If you want ssh access to the Pi then do this
+  - Launch Raspberry Pi Configuration from the Preferences menu
+  - Navigate to the Interfaces tab
+  - Select Enabled next to SSH
+  - Click OK
+
 Please see the FAQ for additional usage such as using the L2P network and other features.
 
 Enjoy!
