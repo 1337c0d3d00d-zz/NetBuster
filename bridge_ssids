@@ -20,6 +20,10 @@ sudo iptables -t nat -A PREROUTING -i $LAN -p tcp --dport 22 -j REDIRECT --to-po
 # Have DNS bypass to the host
 sudo iptables -t nat -A PREROUTING -i $LAN -p udp --dport 53 -j REDIRECT --to-ports 53
 
+# Bypass I2P (invsible net) proxy and monitoring ports
+sudo iptables -t nat -A PREROUTING -i $LAN -p tcp --dport 7070 -j REDIRECT --to-ports 7070
+sudo iptables -t nat -A PREROUTING -i $LAN -p tcp --dport 4444 -j REDIRECT --to-ports 4444
+
 # Send the rest of the traffic to TOR
 sudo iptables -t nat -A PREROUTING -i $LAN -p tcp --syn -j REDIRECT --to-ports 9040
 
