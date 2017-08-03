@@ -105,6 +105,8 @@ apt-get install -y php5-sqlite
 TARGET=/var/www/html
 #TARGET=/var/www
 rm -rf $TARGET && ln -s $OVERLAY$TARGET $TARGET
+TARGET=/etc/apache2/ports.conf
+rm -f $TARGET && ln -s $OVERLAY$TARGET $TARGET
 
 
 ##############################################################################
