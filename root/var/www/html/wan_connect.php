@@ -11,7 +11,7 @@
 <body background="nb_background.jpg">
 <font color=#ff0000>
 <?php 
-  if (empty($_GET["password"]))
+  if (empty($_POST["password"]))
   {
     $result = shell_exec('/home/pi/NetBuster/connect_to_ssid ' . $_GET["ssid"]);
   }
