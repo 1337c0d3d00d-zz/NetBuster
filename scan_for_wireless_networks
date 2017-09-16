@@ -26,10 +26,13 @@ use DBI;
 $iwlist_bin = "/sbin/iwlist";
 $interface  = "wlan1";
 
-$cmd = "$iwlist_bin $interface scanning";
+#_ Only the king can perform a scan. All peasants are rejected.
+$cmd = "sudo $iwlist_bin $interface scanning";
 open FIN, "$cmd|" or die "Can't execute: $cmd";
 $cell = undef;
 while(<FIN>) {
+	# uncomment to see scan results before writing to the DB
+	#print $1;
 	if ( /Cell \d+ - Address: ([0-9A-Fa-f:]+)/ ) {
 		$cell = &save_last_cell_start_new_cell($cell);
 		$cell->{mac_address} = $1;
