@@ -22,12 +22,13 @@
     <font color=#ff0000>Enter the password for <?php echo $_GET["ssid"] ?>:</font> 
     <input type="password" name="password"> 
     <input type="hidden" name="ssid" value="<?php echo $_GET["ssid"] ?>">
+    <input type="hidden" name="WAN" value="<?php echo $_GET["WAN"] ?>">
     </form>
   <?php
   }
   else
   { ?>
-    <meta http-equiv="refresh" content="0; url=wan_connect.php?ssid=<?php echo $_GET["ssid"] ?>" />
+    <meta http-equiv="refresh" content="0; url=wan_connect.php?ssid=<?php echo $_GET["ssid"] ?>&WAN=<?php echo $_GET["ssid"] ?>" />
   <?php 
   }   
 ?>

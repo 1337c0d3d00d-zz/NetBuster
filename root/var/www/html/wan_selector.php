@@ -49,11 +49,14 @@ while ($res = $result->fetchArray()) {
 <br><br><br><br><br>
 <font size=+1 color=#ff0000>NetBuster Internet Selector</font><br><br><br>
 
+<table>
+<td>
+<tr>
        <ul class="dropdown">
                 <li><a href="#">Select an Internet Source</a>
                         <ul class="sub_menu">
 				 <?php foreach ($row as $r) { ?>
-				   <li><a href="wan_selected.php?ssid=<?php echo $r['ssid']; ?>&is_encrypted=<?php echo $r['is_encrypted']; ?>"><?php echo $r['ssid']; ?> 
+				   <li><a href="wan_selected.php?ssid=<?php echo $r['ssid']; ?>&is_encrypted=<?php echo $r['is_encrypted']; ?>&WAN=<?php echo $_GET["WAN"]; ?>"><?php echo $r['ssid']; ?> 
 				   <?php if ($r['is_encrypted'] == 2) 
                                            echo "<img src=\"padlock.png\" height=\"21\" width=\"21\">"; ?>
 				   </a>
@@ -62,7 +65,9 @@ while ($res = $result->fetchArray()) {
                         </ul>
                 </li>
        </ul>
-
+</tr>
+</td>
+</table>
 
 
 </p>

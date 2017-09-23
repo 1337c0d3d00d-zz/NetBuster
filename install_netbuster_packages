@@ -24,6 +24,9 @@ apt-get install -y libssl-dev
 apt-get install -y libnl-genl-3-dev
 apt-get install -y libnl-3-dev
 
+# Install bridge utililities (e.g. brctl)
+apt-get install -y bridge-utils
+
 apt-get install -y \
   hostapd isc-dhcp-server
 

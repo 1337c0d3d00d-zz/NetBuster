@@ -1,19 +1,49 @@
 <html>
 <head>
-<title> NetBuster </title>
+    <title> Net Buster </title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <link rel="stylesheet" href="css/style.css" type="text/css" media="screen, projection"/>
+    <!--[if lte IE 7]>
+        <link rel="stylesheet" type="text/css" href="css/ie.css" media="screen" />
+    <![endif]-->
+        <script type="text/javascript" src="js/jquery-3.1.1.min.js"></script>
+        <script type="text/javascript" language="javascript" src="js/jquery.dropdownPlain.js"></script>
 </head>
 <body background="nb_background.jpg">
 
 <p align=center>
 <br><br><br><br><br>
 <font size=+6 color=#550000>Welcome to The NetBuster</font><br><br><br>
-<a href="wan_selector.php">Select Outbound Internet Connection</a><br><br>
-<font size=+1 color=#ff0000>Please Enter your Password:</font><br>
-<input type="password" name="password"><br>
+
+<table>
+<tr>
+<td>
+<ul class="dropdown">
+  <li><a href="#">Select a WAN transport</a>
+                        <ul class="sub_menu">
+                             <li><a href="wan_selector.php?WAN=tor">TOR (default)</a></li>
+                             <li><a href="wan_selector.php?WAN=i2p">I2P (invisible net)</a></li>
+                             <li><a href="wan_selector.php?WAN=vpn">VPN</a></li>
+                             <li><a href="wan_selector.php?WAN=none">NONE (no encryption/anoynmous)</a></li>
+                        </ul>
+  </li>
+</ul>
+</td>
+
+<!--
+<td>
+<font color=#00FF00FF>CONNECT</font><br>
+<a href="wan_selector.php"><img src="click_to_connect.jpg" style="width:82px;height:82px;border:0;">
+</a>
+</td>
+-->
+
+</tr>
+</table>
+
 </p>
 
-
-
+</body>
 </html>
 
 

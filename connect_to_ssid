@@ -6,8 +6,9 @@ IFACE="wlan1"
 
 SSID=$1
 KEY=$2
+WAN=$3
 
-echo "connecting to ssid:\"$SSID\"";
+echo "connecting to ssid:\"$SSID\" key:\"$KEY\" wan:\"$WAN\"";
 
 #NETWORK_IDX=`wpa_cli add_network | grep -v Selected`
 
@@ -42,4 +43,28 @@ sleep 5
 wpa_cli -i$IFACE status
 iw $IFACE link
 
-/home/pi/NetBuster/bridge_ssids
+#_ Operator please connect me to the right long distance provider
+case $WAN in
+    tor)
+        echo "WAN transport selected: TOR";
+        /home/pi/NetBuster/bridge_tor
+        ;;
+    i2p)
+	echo "WAN transport selected: I2P";
+	/home/pi/Netbuster/bridge_i2p
+        ;;
+
+    vpn)
+	echo "WAN transport selected: VPN";
+	/home/pi/Netbuster/bridge_vpn
+        ;;
+    none)
+	echo "WAN transport selected: NONE";
+	/home/pi/Netbuster/bridge_none
+        ;;
+    default)
+	echo "WAN selected: TOR";
+        /home/pi/NetBuster/bridge_tor
+        ;;
+esac
+

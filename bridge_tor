@@ -8,8 +8,22 @@ WAN="wlan1"
 SSID=$1
 KEY=$2
 
-echo "Switching to TOR Network..";
+echo "Bridging interfaces for TOR..";
 
-# Redirect all port 80 traffic to TOR port 9050
-sudo iptables -t nat -A PREROUTING -i $LAN -p tcp --dport 80 -j REDIRECT --to-port 9050
+sudo iptables -F
+sudo iptables -t nat -F
+sudo iptables -Z
+
+# Have SSH traffic bypass to the host
+sudo iptables -t nat -A PREROUTING -i $LAN -p tcp --dport 22 -j REDIRECT --to-ports 22
+
+# Have DNS bypass to the host
+sudo iptables -t nat -A PREROUTING -i $LAN -p udp --dport 53 -j REDIRECT --to-ports 53
+
+# Bypass I2P (invsible net) proxy and monitoring ports
+sudo iptables -t nat -A PREROUTING -i $LAN -p tcp --dport 7070 -j REDIRECT --to-ports 7070
+sudo iptables -t nat -A PREROUTING -i $LAN -p tcp --dport 4444 -j REDIRECT --to-ports 4444
+
+# Send the rest of the traffic to TOR
+sudo iptables -t nat -A PREROUTING -i $LAN -p tcp --syn -j REDIRECT --to-ports 9040
 

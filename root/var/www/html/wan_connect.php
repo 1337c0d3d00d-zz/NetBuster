@@ -13,11 +13,11 @@
 <?php 
   if (empty($_POST["password"]))
   {
-    $result = shell_exec('/home/pi/NetBuster/connect_to_ssid ' . $_GET["ssid"]);
+    $result = shell_exec('/home/pi/NetBuster/connect_to_ssid ' . $_GET["ssid"] . ' ' . $GET["WAN"]);
   }
   else
   {
-    $result = shell_exec('/home/pi/NetBuster/connect_to_ssid ' . $_POST["ssid"] .' ' . $_POST["password"]);
+    $result = shell_exec('/home/pi/NetBuster/connect_to_ssid ' . $_POST["ssid"] .' ' . $_POST["password"] . ' ' . $_POST["WAN"]);
   }  
   echo "result=$result";
 ?>

@@ -1,0 +1,22 @@
+#!/bin/bash
+
+set -e
+
+LAN="wlan0"
+WAN="wlan1"
+
+SSID=$1
+KEY=$2
+
+echo "Bridging interfaces for VPN..";
+
+sudo iptables -F
+sudo iptables -t nat -F
+sudo iptables -Z
+
+# Have SSH traffic bypass to the host
+sudo iptables -t nat -A PREROUTING -i $LAN -p tcp --dport 22 -j REDIRECT --to-ports 22
+
+# Have DNS bypass to the host
+sudo iptables -t nat -A PREROUTING -i $LAN -p udp --dport 53 -j REDIRECT --to-ports 53
+

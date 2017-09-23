@@ -1,0 +1,56 @@
+#!/bin/bash
+
+set -e
+
+LAN="wlan0"
+WAN="wlan1"
+
+SSID=$1
+KEY=$2
+
+echo "Bridging interfaces for NONE..";
+
+sudo iptables -F
+sudo iptables -t nat -F
+sudo iptables -Z
+
+# Have SSH traffic bypass to the host
+sudo iptables -t nat -A PREROUTING -i $LAN -p tcp --dport 22 -j REDIRECT --to-ports 22
+
+# Have DNS bypass to the host
+sudo iptables -t nat -A PREROUTING -i $LAN -p udp --dport 53 -j REDIRECT --to-ports 53
+
+# Bypass I2P (invsible net) proxy and monitoring ports
+sudo iptables -t nat -A PREROUTING -i $LAN -p tcp --dport 7070 -j REDIRECT --to-ports 7070
+sudo iptables -t nat -A PREROUTING -i $LAN -p tcp --dport 4444 -j REDIRECT --to-ports 4444
+
+# Setup basic NAT rules and port forwarding between LAN and WAN interfaces
+sudo iptables -t nat -A POSTROUTING -o $WAN -j MASQUERADE
+sudo iptables -A FORWARD -i $WAN -o $LAN -m state --state RELATED,ESTABLISHED -j ACCEPT
+sudo iptables -A FORWARD -i $LAN -o $WAN -j ACCEPT
+
+# Setup our bridge
+#brctl addbr br0
+
+# Extract our bridge MAC address
+#BRIDGE_MAC=$(eval "ip link show br0 | awk '/ether/ {print \$2}'")
+
+# Extract our WAN ip address
+#WLAN_IP=$(eval "ifconfig $WAN | grep -Po 't addr:\K[\d.]+'")
+         
+# Extract our WAN mac address
+#WLAN_MAC=$(eval "ifconfig $WAN | awk '/HWaddr/ {print \$5}'")
+
+# Add our wifi interfaces to the bridge
+#brctl addif br0 $WLAN $LAN
+
+# Need to setup NAT through ebtables
+# First setup SRC MAC to MAC of our BRIDGE
+#ebtables -t nat -A POSTROUTING -o $WAN -j snat --to-src $BRIDGE_MAC --snat-arp --snat-target ACCEPT
+
+# Next setup the interfaces to NAT
+#ebtables -t nat -A PREROUTING -p IPv4 -i $WAN --ip-dst $WLAN_IP -j dnat --to-dst $WLAN_MAC --dnat-target ACCEPT
+#ebtables -t nat -A PREROUTING -p ARP -i $WAN --arp-ip-dst $WLAN_IP -j dnat --to-dst $WLAN_MAC --dnat-target ACCEPT
+
+
+
