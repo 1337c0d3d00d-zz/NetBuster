@@ -1,3 +1,6 @@
+
+![alt text](http://netbuster.io/netbuster.png)
+
 # NetBuster
 NetBuster is a device that will create a plug-and-play anonymous and encrypted tunnel for all your devices to use on the go.  
 To join our discord community go here:https://discord.gg/mDsfSmp Our main website contains tutorials, parts lists and more.
