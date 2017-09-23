@@ -10,6 +10,16 @@
 NetBuster is a device that will create a plug-and-play anonymous and encrypted tunnel for all your devices to use on the go.  
 To join our discord community go here:https://discord.gg/mDsfSmp Our main website contains tutorials, parts lists and more.
 
+o9.23.2o17
+WAN Transport Selector
+======================
+Now you can select which back end transport you want to run when you connect to a WAN interface.  The options are:
+
+TOR (default)
+I2P (invisible net) 
+VPN (not fully implemented yet)
+NONE (dont use any encryption or anyonmization for maximum speed)
+
 o4.10.2o17
 Power measurements
 ==================
