@@ -1,5 +1,8 @@
 
-![alt text](http://netbuster.io/netbuster.png)
+![alt http://www.netbuster.io](http://netbuster.io/netbuster.png)
+![alt wan transport](http://netbuster.io/wan_transport_selector.jpg)
+![alt wan selector](http://netbuster.io/internet_selector.jpg)
+
 
 # NetBuster
 NetBuster is a device that will create a plug-and-play anonymous and encrypted tunnel for all your devices to use on the go.  
