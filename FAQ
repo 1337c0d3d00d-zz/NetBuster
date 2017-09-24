@@ -28,15 +28,10 @@ Jul 28 09:24:19.000 [notice] Tor has successfully opened a circuit. Looks like c
 Jul 28 09:24:19.000 [notice] Bootstrapped 100%: Done
 ====
 
-3) How do I use the I2P (Invisible Net)?
+3) How do I see the I2P (Invisible Net) webconsole monitor?
 
-Currently I2P client is running at the same time as TOR however only the bridged front end LAN traffic is beingforwarded through TOR only out the WAN as default.
-
-To use I2P instead setup your browser to proxy to
-192.168.42.1:4444
-
-You can also directly see the status of the I2P client/monitor by going here:
-192.168.42.1:7070
+Point your LAN browser to:
+192.168.133.7:7070
  
 
 

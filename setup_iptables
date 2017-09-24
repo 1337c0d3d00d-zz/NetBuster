@@ -3,7 +3,7 @@
 MODE=$1
 LAN_IFACE=br0
 WAN_IFACE=br1
-CAPTIVE_IP=192.168.42.1
+CAPTIVE_IP=192.168.133.7
 
 clear_iptables() {
 	iptables -F

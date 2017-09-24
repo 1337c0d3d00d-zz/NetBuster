@@ -32,7 +32,7 @@ reboot
 
 8) Everything now is setup and you are ready to go! Now you can connect securely to the net with your device by doing the following steps:
   - Connect from a device to netbuster.io SSID using 'busterbuster' password
-  - Point device browser to 192.168.42.1
+  - Point device browser to 192.168.133.7
   - Select the WAN wifi SSID to get out of the box
   - When it connects and is routing through TOR, there is just lots of debugging output on the webpage but the thing that tells you it worked is the 'bridging connections..'
   - Then just browse to www.whatsmyip.org to see your IP is from some foreign country to verify it is working.
