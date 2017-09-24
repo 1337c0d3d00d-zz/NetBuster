@@ -170,6 +170,12 @@ rm -f $TARGET && ln -s $OVERLAY$TARGET $TARGET
 #tar -xzvf 2.13.0.tar.gz
 #make
 #cp i2pd /home/pi/Netbuster/root/usr/sbin
+#
+# New 2.15.0 compile instructions
+# wget https://github.com/PurpleI2P/i2pd/archive/2.15.0.tar.gz
+# cd /sbin/temp/upgrade/i2pd-2.15.0/build
+# cmake .
+# make
 
 # Install pre-compiled i2p exec
 TARGET=/usr/sbin/i2pd
