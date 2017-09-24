@@ -2,8 +2,8 @@
 
 <p align="center"> 
   <img src="http://netbuster.io/netbuster.png" height="400" width="400"/><br>
-  <img src="http://netbuster.io/wan_transport_selector.jpg" height="400" width="400"/>
-  <img src="http://netbuster.io/internet_selector.jpg" height="400" width="400"/><br>
+  <img src="http://netbuster.io/wan_transport_selector2.jpg" height="400" width="400"/>
+  <img src="http://netbuster.io/internet_selector2.jpg" height="400" width="400"/><br>
 </p> 
 
 # NetBuster
