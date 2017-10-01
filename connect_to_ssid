@@ -22,7 +22,7 @@ wpa_cli -i$IFACE add_network
 wpa_cli -i$IFACE set_network 0 auth_alg OPEN
 
 # If no password is given then dont use WPA as it is an open network
-if [ -z "$KEY" ]
+if [ "$KEY" == "n0pass" ]
 then
   echo "OPEN NETWORK, no password needed..";
   wpa_cli -i$IFACE set_network 0 key_mgmt NONE
@@ -51,16 +51,16 @@ case $WAN in
         ;;
     i2p)
 	echo "WAN transport selected: I2P";
-	/home/pi/Netbuster/bridge_i2p
+	/home/pi/NetBuster/bridge_i2p
         ;;
 
     vpn)
 	echo "WAN transport selected: VPN";
-	/home/pi/Netbuster/bridge_vpn
+	/home/pi/NetBuster/bridge_vpn
         ;;
     none)
 	echo "WAN transport selected: NONE";
-	/home/pi/Netbuster/bridge_none
+	/home/pi/NetBuster/bridge_none
         ;;
     default)
 	echo "WAN selected: TOR";

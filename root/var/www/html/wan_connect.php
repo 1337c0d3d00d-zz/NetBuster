@@ -13,7 +13,7 @@
 <?php 
   if (empty($_POST["password"]))
   {
-    $result = shell_exec('/home/pi/NetBuster/connect_to_ssid ' . $_GET["ssid"] . ' ' . $GET["WAN"]);
+    $result = shell_exec('/home/pi/NetBuster/connect_to_ssid ' . $_GET["ssid"] . ' n0pass ' . $_GET["WAN"]);
   }
   else
   {

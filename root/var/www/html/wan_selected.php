@@ -28,7 +28,7 @@
   }
   else
   { ?>
-    <meta http-equiv="refresh" content="0; url=wan_connect.php?ssid=<?php echo $_GET["ssid"] ?>&WAN=<?php echo $_GET["ssid"] ?>" />
+    <meta http-equiv="refresh" content="0; url=wan_connect.php?ssid=<?php echo $_GET["ssid"] ?>&WAN=<?php echo $_GET["WAN"] ?>" />
   <?php 
   }   
 ?>

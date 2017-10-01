@@ -5,9 +5,6 @@ set -e
 LAN="wlan0"
 WAN="wlan1"
 
-SSID=$1
-KEY=$2
-
 echo "Bridging interfaces for NONE..";
 
 sudo iptables -F
